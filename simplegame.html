@@ -13,15 +13,91 @@
     <title>Simple Game</title>
     <script type="text/javascript">
 
-    var gameForm = 'your input: <input type = "text" id = "answer"> <input type = "button" id = "enter" value = "enter">';
+        var fingersLeft = 5;
+        var gameForm = 'your input: <input type = "text" id = "answer"> <input type = "button" id = "enter" value = "enter" onclick = "moveScene()">';
+        var messages = [];
+        var scene = 1;
+        var sceneMessage = 1;
 
         function drawScene() {
 
+            messages[1] = "You are Sherlock Holmes. Watson has brought you a message. It reads: 'Do you want to play a game?'";
+            messages[2] = "The room explodes. You are dead. No Reichenbach Falls for you!";
+            messages[3] = "Somehow, Moriarty has heard you! A raven flies in the window. In its beak is a small monkey skull. On the skull is written: 'Do you know the password?'";
+            messages[4] = "The raven rotates the skull until the word 'No' is shown. Then it turns the skull until it again reads: 'Do you know the password?'";
+            messages[5] = "A 16-ton weight falls on Watson. On the side of the weight is a message that reads: 'What is the second note of your favorite piece of music?'"
+            messages[6] = "A blade flies through the window and cuts off one of Sherlock's fingers. He has " + fingersLeft + ". I guess that was the wrong note."
+            messages[7] = "The weight that fell on Watson was hollow and his condition is not critical. You have defeated Moriarty."
 
-        var input = document.getElementById("input_form");
 
-        input.innerHtml = gameForm;
 
+
+
+
+
+            var respond = document.getElementById("container");
+            var input = document.getElementById("input_form");
+            respond.innerHTML = messages[sceneMessage];
+            input.innerHTML = gameForm;
+
+        }
+
+        function moveScene() {
+
+            var answer = document.getElementById("answer").value;
+
+            if (scene == 1) {
+
+                if (answer == "yes") {
+                    scene = 2;
+                    sceneMessage = 3;
+                }
+
+                else {
+                    sceneMessage = 2;
+                    gameForm = "Game over.";
+                }
+
+            }
+
+            else if (scene == 2) {
+
+                if (answer == "no") {
+                    scene = 3;
+                    sceneMessage = 5;
+                }
+
+                else {
+                    sceneMessage = 4;
+                }
+
+            }
+
+            else if (scene == 3) {
+
+                if ((answer == "Eb") || (answer == "E flat")) {
+                    scene = 4;
+                    sceneMessage = 7;
+                    gameForm = "You Won!";
+                }
+
+                else {
+                    sceneMessage = 6;
+                    oldFingersLeft = fingersLeft;
+                    fingersLeft = fingersLeft - 1;
+                    messages[6] = messages[6].replace(oldFingersLeft, fingersLeft);
+                    var scream = document.getElementById("scream");
+                    scream.play();
+
+                    if (fingersLeft == 0) {
+                        gameForm = "You have no fingers left to play the violin. You have been defeated.";
+                    }
+                }
+            }
+            var respond = document.getElementById("container");
+            var input = document.getElementById("input_form");
+            respond.innerHTML = messages[sceneMessage];
+            input.innerHTML = gameForm;
         }
 
     </script>
@@ -31,7 +107,7 @@
 
     <div id="container"></div>
     <div id="input_form"></div>
-
+    <audio id="scream" src="https://vignette.wikia.nocookie.net/plantsvszombies/images/e/e1/Scream.ogg/revision/latest?cb=20160826150341"></audio>
 </body>
 
 </html>
