@@ -1,7 +1,7 @@
 <!-- ******************************************
 *  Author : Author   
 *  Created On : Mon Jul 23 2018
-*  File : simplegame.html.html
+*  File : simplegame.html
 ******************************************* -->
 
 <!DOCTYPE html>
@@ -11,10 +11,27 @@
     <meta charset="UTF-8">
     <meta name="author" content="Author">
     <title>Simple Game</title>
+    <script type="text/javascript">
+
+    var gameForm = 'your input: <input type = "text" id = "answer"> <input type = "button" id = "enter" value = "enter">';
+
+        function drawScene() {
+
+
+        var input = document.getElementById("input_form");
+
+        input.innerHtml = gameForm;
+
+        }
+
+    </script>
 </head>
 
-<body>
-    #[[$END$]]#
+<body onload="drawScene()">
+
+    <div id="container"></div>
+    <div id="input_form"></div>
+
 </body>
 
 </html>
